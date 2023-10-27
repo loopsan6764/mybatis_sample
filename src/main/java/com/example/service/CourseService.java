@@ -20,4 +20,21 @@ public class CourseService {
     public List<Course> findAll() {
         return this.courseMapper.findAll();
     }
+    
+    public void insert(String name) {
+    	 Course course = new Course();
+    	 course.setName(name);
+    	 this.courseMapper.insert(course);
+    }
+    
+    public Course findById(Integer id) {
+    	 return this.courseMapper.findById(id);
+    	}
+    
+    public void update(Integer id, String name) {
+    	Course course = new Course();
+    	course.setId(id);
+    	course.setName(name);
+    	this.courseMapper.update(course);
+	}
 }
