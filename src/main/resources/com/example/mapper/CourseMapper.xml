@@ -6,58 +6,42 @@
 	<resultMap type="com.example.entity.Course" id="courseMap">
 		<id column="ID" property="id" />
 		<result column="NAME" property="name" />
-		<association property="courseDetail"
-			javaType="com.example.entity.CourseDetail">
-			<id column="CD_ID" property="id" />
-			<result column="DESCRIPTION" property="description" />
+		<association property="courseDetail" javaType="com.example.entity.CourseDetail">
+			<id column="CD_ID" property="id"/>
+			<result column="DESCRIPTION" property="description"/>
 		</association>
-		<collection property="chapters"
-			ofType="com.example.entity.Chapter">
-			<id column="CH_ID" property="id" />
-			<result column="CH_NAME" property="name" />
+		<collection property="chapters" ofType="com.example.entity.Chapter">
+ 			<id column="CH_ID" property="id"/>
+			<result column="CH_NAME" property="name"/>
 		</collection>
 	</resultMap>
 
 	<select id="findAll" resultMap="courseMap">
 		SELECT
-			*
-        FROM
-            COURSES
-        <where>
-            <if test="courseId != null">
-                 ID = #{courseId}
-            </if>
-            <if test="courseName != null">
-                 OR NAME = #{courseName}
-            </if>
-        </where>
-	</select>
-	<insert id="insert" useGeneratedKeys="true" keyColumn="ID"
-		keyProperty="id">
-		INSERT INTO COURSES (ID, NAME) VALUES
-		(COURSE_ID_SEQ.nextval, #{name})
-	</insert>
-	<select id="findById" resultMap="courseMap">
-		<!-- ☆SQLを修正☆ -->
-		SELECT
-		C.ID
-		,C.NAME
-		,CD.ID AS CD_ID
-		,CD.DESCRIPTION
-		,CH.ID AS CH_ID
-		,CH.NAME AS CH_NAME
+			C.ID
+			,C.NAME
+			,CD.ID AS CD_ID
+			,CD.DESCRIPTION
+			,CH.ID AS CH_ID
+			,CH.NAME AS CH_NAME
 		FROM
-		COURSES C
+			COURSES C
 		INNER JOIN
-		COURSE_DETAILS CD
+			COURSE_DETAILS CD
 		ON
-		C.ID = CD.COURSES_ID
+			C.ID = CD.COURSES_ID
 		INNER JOIN
 		CHAPTERS CH
 		ON
-		C.ID = CH.COURSES_ID
+			C.ID = CH.COURSES_ID
 		WHERE
-		C.ID = #{id}
+			C.ID = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+		INSERT INTO COURSES (ID, NAME) VALUES (COURSE_ID_SEQ.nextval, #{name})
+	</insert>
+	<select id="findById" resultMap="courseMap">
+		SELECT * FROM COURSES WHERE ID = #{id}
 	</select>
 	<update id="update">
 		UPDATE COURSES SET NAME = #{name} WHERE ID = #{id}
@@ -65,5 +49,5 @@
 	<delete id="deleteById">
 		DELETE FROM COURSES WHERE ID = #{id}
 	</delete>
-
+		
 </mapper>
